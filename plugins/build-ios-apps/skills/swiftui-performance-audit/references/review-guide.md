@@ -29,7 +29,7 @@ Observation is read-tracked. The important design move is not merely "use `@Obse
 
 ### Avoid `AnyView` in hot paths
 
-Flag `AnyView` in lists, large `ForEach` content, chat rows, and frequently updating surfaces. Prefer:
+Flag `AnyView` in lists, large `ForEach` content, dynamic rows, and frequently updating surfaces. Prefer:
 
 - `@ViewBuilder` functions returning `some View`
 - enums plus `switch`
@@ -186,7 +186,7 @@ Action closures are fine, but captures still matter.
 
 Prefer key-path bindings such as `$state` and `$model.property` over `Binding(get:set:)` where possible.
 
-Manual bindings store closures and are harder for SwiftUI to compare across updates. Strongly question them in list rows, chat input, and other frequently updating controls. If one is necessary, isolate it in a small subview and document why a key-path binding was insufficient.
+Manual bindings store closures and are harder for SwiftUI to compare across updates. Strongly question them in list rows, text input, and other frequently updating controls. If one is necessary, isolate it in a small subview and document why a key-path binding was insufficient.
 
 ## Images and animations
 
@@ -203,7 +203,7 @@ Use Instruments' SwiftUI template to inspect:
 - Other Long Updates
 - cause-and-effect graphs
 
-When a PR materially changes a chat thread, large scrolling surface, or complex animated area, add a `// PERF:` note when useful so future maintainers know how to reproduce and measure the sensitive path.
+When a PR materially changes a large scrolling surface, frequently updated screen, or complex animated area, add a `// PERF:` note when useful so future maintainers know how to reproduce and measure the sensitive path.
 
 ## Review checklist
 
