@@ -23,7 +23,7 @@ Prefer Observation for new feature code when the deployment target allows it.
 - Mark mutable non-render bookkeeping such as caches, task handles, cancellables, services, and lazy dependencies with `@ObservationIgnored` when they should not participate in invalidation.
 - Do not mark immutable `let` dependencies with `@ObservationIgnored`; they are already outside mutable observed state.
 
-Observation is read-tracked. The important design move is not merely "use `@Observable`", but "make each leaf read only what it truly needs."
+Observation is read-tracked. The important design move is not merely "use `@Observable`", but "make each leaf read only what it truly needs." If every row reads the same broad collection or root model, each row can depend on that whole value even when it only needs one derived fact.
 
 ## Structural identity
 
@@ -79,6 +79,8 @@ Treat all code reachable from `body` as hot-path code:
 - helper methods called by `body`
 - alternate "measured body" implementations
 
+View bodies run on the main thread, and synchronous work reached from `body` has to complete before SwiftUI can finish the update for the next frame.
+
 Flag:
 
 - sorting or filtering large collections during render
@@ -128,6 +130,8 @@ Treat these APIs as hot spots when they feed state or sit above large subtrees: 
 ### Avoid high-volume environment writes
 
 Rapidly writing scroll offsets, geometry, timers, or large arrays into the environment wakes every environment-reading view. Prefer putting a stable observable reference in the environment and mutating fields on that object so only the views that read the changing field update.
+
+Even when SwiftUI decides a dependent view's `body` does not need to run, there is still cost in checking that dependency after the environment value changes.
 
 When reacting to high-frequency signals, prefer thresholds, debouncing, or model-layer coalescing over responding to every tick.
 
@@ -209,6 +213,8 @@ Use Instruments' SwiftUI template to inspect:
 - Long View Body Updates
 - Other Long Updates
 - cause-and-effect graphs
+
+Use Update Groups to find when SwiftUI is doing work, Long View Body Updates to find slow `body` evaluation, and the cause-and-effect graph to compare the interaction's expected update fan-out with the actual views that were invalidated. If a tap should update two rows but the graph shows the whole list, narrow the dependencies before reaching for `.equatable()` or other local triage.
 
 When a PR materially changes a large scrolling surface, frequently updated screen, or complex animated area, add a `// PERF:` note when useful so future maintainers know how to reproduce and measure the sensitive path.
 

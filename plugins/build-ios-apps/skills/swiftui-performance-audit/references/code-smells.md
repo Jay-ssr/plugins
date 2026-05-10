@@ -26,6 +26,8 @@ final class DistanceFormatter {
 }
 ```
 
+Formatter allocation and string formatting in `body` both run during view update work. Precompute display strings before rendering when the calculation is expensive or repeated across rows.
+
 ### Heavy computed properties
 
 ```swift
@@ -136,15 +138,15 @@ Prefer decode and downsample work off the main thread, then store the processed 
 
 ```swift
 @Observable final class Model {
-    var items: [Item] = []
+    var favoriteIDs: Set<Item.ID> = []
 }
 
 var body: some View {
-    Row(isFavorite: model.items.contains(item))
+    Row(isFavorite: model.favoriteIDs.contains(item.id))
 }
 ```
 
-If many views read the same broad collection or root model, small changes can fan out into wide invalidation. Prefer narrower derived inputs, smaller observable surfaces, or per-item state closer to the leaf views.
+If many views read the same broad collection or root model, small changes can fan out into wide invalidation. This still applies when the collection read is hidden behind a helper called from `body`. Prefer passing a derived value such as `isFavorite`, using smaller observable surfaces, or moving per-item state closer to the leaf views.
 
 ### High-volume environment writes
 
@@ -153,6 +155,8 @@ If many views read the same broad collection or root model, small changes can fa
 ```
 
 Rapidly changing environment values wake every environment-reading descendant. Prefer a stable observable reference in the environment and mutate the one field that interested leaves read.
+
+Even skipped body updates can have check cost after an environment value changes, so do not put high-frequency geometry, timer, scroll, or collection values directly in the environment.
 
 ### Wide geometry readers
 
