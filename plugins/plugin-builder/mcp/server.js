@@ -119,8 +119,37 @@ function summarizeText(text, maxLength = 180) {
   return `${normalized.slice(0, maxLength - 1).trim()}...`;
 }
 
+function previewMarkdown(markdown) {
+  const withoutFences = markdown.replace(/```[\s\S]*?```/g, " ");
+  const withoutHeadings = withoutFences.replace(/^#{1,6}\s+/gm, "");
+  return summarizeText(withoutHeadings, 280) || "This skill does not have a Markdown body.";
+}
+
 function relativeLabel(pluginPath, filePath) {
   return path.relative(pluginPath, filePath) || ".";
+}
+
+function extractMarkdownHeadings(markdown) {
+  const headings = [];
+  let inFence = false;
+
+  for (const line of markdown.split("\n")) {
+    const trimmed = line.trim();
+    if (trimmed.startsWith("```") || trimmed.startsWith("~~~")) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence || !/^#{1,3}\s+/.test(line)) {
+      continue;
+    }
+
+    const heading = line.replace(/^#{1,3}\s+/, "").trim();
+    if (heading) {
+      headings.push(heading);
+    }
+  }
+
+  return headings.slice(0, 6);
 }
 
 function readSkills(pluginPath, manifest) {
@@ -137,16 +166,13 @@ function readSkills(pluginPath, manifest) {
       const parsed = parseFrontmatter(markdown);
       const fallbackName = path.basename(path.dirname(skillPath));
       const title = parsed.fields.name || fallbackName;
-      const summary =
+      const summary = summarizeText(
         parsed.fields.description ||
-        summarizeText(parsed.body) ||
-        "No skill description provided.";
-      const headings = parsed.body
-        .split("\n")
-        .filter((line) => /^#{1,3}\s+/.test(line))
-        .map((line) => line.replace(/^#{1,3}\s+/, "").trim())
-        .filter(Boolean)
-        .slice(0, 6);
+          summarizeText(parsed.body) ||
+          "No skill description provided.",
+        150,
+      );
+      const headings = extractMarkdownHeadings(parsed.body);
 
       return {
         id: fallbackName,
@@ -155,7 +181,7 @@ function readSkills(pluginPath, manifest) {
         pathLabel: relativeLabel(pluginPath, skillPath),
         frontmatterSummary: parsed.fields.description || "No frontmatter summary provided.",
         headings,
-        preview: summarizeText(parsed.body, 280) || "This skill does not have a Markdown body.",
+        preview: previewMarkdown(parsed.body),
       };
     });
 }
@@ -292,7 +318,6 @@ function readPluginSummary(args = {}) {
     marketplaces,
     localDetails: [
       { label: "Plugin path", value: pluginPath },
-      { label: "Manifest", value: manifestPath },
     ],
   };
 }
