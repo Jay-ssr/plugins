@@ -403,7 +403,7 @@ function SummaryScreen({
   onOpenDetail: (selection: DetailSelection) => void;
 }): ReactElement {
   return (
-    <main className="min-h-screen bg-canvas px-7 py-6 text-ink">
+    <main className="codex-app min-h-screen bg-canvas px-7 py-6 text-ink">
       <header className="flex flex-col gap-5 border-b border-line pb-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="flex min-w-0 items-start gap-4">
           <div className="grid h-16 w-16 shrink-0 place-items-center rounded-lg border border-line bg-panel shadow-hairline">
@@ -484,7 +484,7 @@ function DetailScreen({
   const summary = safeText(detail.item.summary);
 
   return (
-    <main className="min-h-screen bg-canvas px-7 py-6 text-ink">
+    <main className="codex-app min-h-screen bg-canvas px-7 py-6 text-ink">
       <button
         type="button"
         className="mb-6 inline-flex items-center gap-2 text-[14px] font-medium text-muted transition hover:text-ink"
