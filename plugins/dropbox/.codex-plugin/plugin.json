@@ -32,7 +32,9 @@
     "privacyPolicyURL": "https://www.dropbox.com/privacy",
     "termsOfServiceURL": "https://www.dropbox.com/terms",
     "defaultPrompt": [
-      "Find Dropbox files, summarize the relevant content, or write files back to Dropbox"
+      "Find my document and summarize it",
+      "Generate a shareable link for this PDF",
+      "Save this chat as a file in my Dropbox"
     ],
     "brandColor": "#0061FF",
     "composerIcon": "./assets/app-icon.png",
