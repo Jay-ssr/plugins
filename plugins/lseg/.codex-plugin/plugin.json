@@ -39,6 +39,8 @@
       "Analyze equity index funding costs with LSEG CofBox."
     ],
     "brandColor": "#001EFF",
+    "composerIcon": "./assets/app-icon.png",
+    "logo": "./assets/app-icon.png",
     "screenshots": []
   }
 }
