@@ -1,0 +1,6 @@
+interface:
+  display_name: "Investment Banking Router"
+  short_description: "Routes explicit or unmistakable banker execution workflows only"
+  default_prompt: "Use $investment-banking only for an explicitly requested Investment Banking workflow or an unmistakable banker-owned transaction execution mandate."
+policy:
+  allow_implicit_invocation: true

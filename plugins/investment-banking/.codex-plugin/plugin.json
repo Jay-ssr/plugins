@@ -1,0 +1,51 @@
+{
+  "name": "investment-banking",
+  "version": "0.1.26",
+  "description": "Investment banking workflows for M&A, coverage, sponsors, capital markets, LevFin, restructuring, valuation, diligence, pitch materials, and deal execution.",
+  "author": {
+    "name": "OpenAI"
+  },
+  "homepage": "https://github.com/openai/oai-maintained-plugins/tree/main/plugins/investment-banking",
+  "repository": "https://github.com/openai/oai-maintained-plugins/tree/main/plugins/investment-banking",
+  "license": "Proprietary",
+  "keywords": [
+    "investment-banking",
+    "m&a",
+    "valuation",
+    "pitch-deck",
+    "capital-markets",
+    "levfin",
+    "lbo",
+    "cim",
+    "debt-capacity",
+    "dashboard",
+    "html-dashboard",
+    "diligence-dashboard"
+  ],
+  "skills": "./skills/",
+  "apps": "./.app.json",
+  "interface": {
+    "displayName": "Investment Banking",
+    "shortDescription": "M&A, capital markets, LevFin, valuation, diligence, and pitch workflows",
+    "longDescription": "Investment banking workflows for M&A, coverage, sponsors, ECM/DCM, LevFin, restructuring, capital advisory, valuation, buyer and investor targeting, diligence, pitch materials, and process execution.",
+    "developerName": "OpenAI",
+    "category": "Finance",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://openai.com/",
+    "privacyPolicyURL": "https://openai.com/policies/row-privacy-policy/",
+    "termsOfServiceURL": "https://openai.com/policies/row-terms-of-use/",
+    "defaultPrompt": [
+      "Help me get started",
+      "Prepare a coverage meeting brief for Apple using public sources, with strategic questions and likely discussion topics",
+      "Build a trading comps valuation for CrowdStrike using public sources and explain the peer set"
+    ],
+    "brandColor": "#04B84C",
+    "composerIcon": "./assets/composerIcon.svg",
+    "logo": "./assets/logo.png",
+    "screenshots": []
+  }
+}

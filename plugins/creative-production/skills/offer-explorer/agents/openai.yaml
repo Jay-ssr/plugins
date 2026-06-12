@@ -1,0 +1,7 @@
+interface:
+  display_name: "Offer Explorer"
+  short_description: "Explore 25 starter offer directions"
+  brand_color: "#7A4B16"
+  default_prompt: "Use $offer-explorer to explore 25 starter offer directions from this product, service, venue, digital product, or campaign brief."
+policy:
+  allow_implicit_invocation: true

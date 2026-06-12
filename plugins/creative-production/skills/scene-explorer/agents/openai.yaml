@@ -1,0 +1,7 @@
+interface:
+  display_name: "Scene Explorer"
+  short_description: "Explore 25 starter scene directions"
+  brand_color: "#245F4C"
+  default_prompt: "Use $scene-explorer to explore 25 starter customer, service, retail, or point-of-sale scene directions for this product, venue, service, or offer."
+policy:
+  allow_implicit_invocation: true
