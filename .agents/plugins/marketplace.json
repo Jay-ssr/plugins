@@ -1,7 +1,7 @@
 {
-  "name": "openai-curated",
+  "name": "jay-open-curated",
   "interface": {
-    "displayName": "Codex official"
+    "displayName": "Jay Open Curated"
   },
   "plugins": [
     {
