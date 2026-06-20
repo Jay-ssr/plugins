@@ -25,7 +25,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote add upstream https://github.com/openai/plugins.git
+          git remote add upstream https://github.com/openai/plugins.git || true
           git fetch upstream main
-          git merge --no-edit upstream/main
+          # Use -X ours: when conflicts occur, prefer our fork's version
+          # so local customizations (name, displayName, plugin list) are preserved
+          if git merge --no-edit -X ours upstream/main; then
+            echo "Merge successful, pushing changes"
+          else
+            echo "Merge conflict detected, keeping local fork version"
+            git merge --abort || true
+          fi
           git push origin HEAD:main
